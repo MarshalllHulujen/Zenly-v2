@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { NextRequest, NextResponse } from "next/server";
 import { createConversation, getAllConversations } from "ZenlyV2/app/service/conversation-service";
 
