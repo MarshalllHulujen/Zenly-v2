@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createConversation, getAllConversations } from "ZenlyV2/app/service/conversation-service";
+import {
+  createConversation,
+  deleteConversation,
+  getAllConversations,
+} from "ZenlyV2/app/service/conversation-service";
 
 // api key : IMNEMCbd6cPAlHD1TVovDfla0xwpWLDUkZsH7SwjTpI3LWqbzl6d1iRzLoLkPaV3
 
@@ -10,15 +14,33 @@ export const GET = async (request: NextResponse) => {
     return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-
 };
 
 // POST -> /api/conversations
 export const POST = async (request: NextRequest) => {
-    const data = await request.json();
-    const { members } = data
-    const createdData = createConversation(members);
-    return NextResponse.json(createdData);
+  const data = await request.json();
+  const { members } = data;
+  const createdData = createConversation(members);
+  return NextResponse.json(createdData);
+};
+
+export const DELETE = async (request: NextRequest) => {
+  const data = await request.json();
+  const id = data._id
+  try {
+    const result = await deleteConversation(id);
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+
 };

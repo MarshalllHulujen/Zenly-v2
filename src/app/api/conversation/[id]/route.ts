@@ -12,7 +12,10 @@ export const GET = (request: NextResponse) => {
 };
 
 // PATCH/PUT -> /api/conversations/12
-export const PATCH = (request: NextRequest) => {};
+export const PATCH = (request: NextRequest) => {
+};
 
 // DELETE -> /api/conversations/12
-export const DELETE = (request: NextRequest) => {};
+export const DELETE = (request: NextRequest) => {
+  
+};
