@@ -57,20 +57,3 @@ export const createConversation = async (
   }
   return newConversation;
 };
-
-export const deleteConversation = async (_id: string) => {
-  const { response, error } = await mongoApiRequest(
-    "deleteOne",
-    "conversations",
-    {
-      filter: {
-        _id: { "$oid": _id }
-      },
-    }
-  );
-  if (error) {
-    // console.error(error);
-    return error;
-  }
-  return deleteConversation;
-};

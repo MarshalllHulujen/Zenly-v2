@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   createConversation,
-  deleteConversation,
   getAllConversations,
 } from "ZenlyV2/app/service/conversation-service";
 
@@ -27,20 +26,4 @@ export const POST = async (request: NextRequest) => {
   const { members } = data;
   const createdData = createConversation(members);
   return NextResponse.json(createdData);
-};
-
-export const DELETE = async (request: NextRequest) => {
-  const data = await request.json();
-  const id = data._id
-  try {
-    const result = await deleteConversation(id);
-    return NextResponse.json(result);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-
 };
