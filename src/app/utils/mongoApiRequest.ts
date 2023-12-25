@@ -1,7 +1,7 @@
 import axios from "axios";
 
 type MongoApiRequestType = "find" | "findOne" | "insertOne" | "updateOne" | "deleteOne" | "aggregate" | "deleteMany";
-type MongoApiCollection = "conversations" | "chats";
+type MongoApiCollection = "conversations" | "chats" | "users";
 
 
 
