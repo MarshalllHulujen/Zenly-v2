@@ -3,8 +3,6 @@ import axios from "axios";
 import { mongoApiRequest } from "../utils/mongoApiRequest";
 import { Conversation } from "../types/Conversation";
 import { SimpleResponse } from "../types";
-import { Prisma } from "@prisma/client";
-import { prisma } from "../utils/prisma";
 // api-url https://ap-south-1.aws.data.mongodb-api.com/app/data-diolp/endpoint/data/v1
 // api-key = YkPHUTHBmy5tIRvdnOsb4FruNu7I8MfKaOpIoRACElDIGW1HUarjnC1cDsCzXuiu
 
@@ -38,12 +36,24 @@ export const getConversation = async (
 };
 
 export const createConversation = async (
-  input: Prisma.ConversationCreateInput
-) => {
-  try {
-    const result = await prisma.conversation.create({ data: input });
-    return { response : result }
-  } catch (error) {
-    return error
+  members: string[]
+): Promise<Conversation | null> => {
+  const newConversation = {
+    _id: nanoid(),
+    members,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+  const { response, error } = await mongoApiRequest(
+    "insertOne",
+    "conversations",
+    {
+      document: newConversation,
+    }
+  );
+  if (error) {
+    console.error(error);
+    return null;
   }
+  return newConversation;
 };
