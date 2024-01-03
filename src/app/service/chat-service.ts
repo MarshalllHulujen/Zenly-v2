@@ -1,32 +1,27 @@
-import { Chat, SimpleResponse } from "../types"
-import { mongoApiRequest } from "../utils/mongoApiRequest";
-import { getConversation } from "./conversation-service";
-import { nanoid } from "nanoid";
+import { SimpleResponse } from "../types/simple-response"
+import { prisma } from "../utils/prisma";
+import { Chat } from "@prisma/client";
 
 export const getChatsByConversationById = async (conversationId: string): Promise<SimpleResponse<Chat[]>> => {
-    const { response, error } = await mongoApiRequest("find", "chats", {
-      filter: { conversationId },
+  try {
+    const response = await prisma.chat.findMany({where: {conversationId} })
+    return { response }
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const sendChat = async (conversationId: string, senderId: string, content: string): Promise<SimpleResponse<Chat>> => {
+  try {
+    const response = await prisma.chat.create({
+      data: {
+        conversationId,
+        senderId,
+        content
+      },
     });
-    if (error) return error;
-    return { response: response.documents };
-  };
-  
-  export const sendChat = async (conversationId: string, senderId: string, content: string): Promise<SimpleResponse<Chat>> => {
-    const { response: conversation, error: conversationError } = await getConversation(conversationId);
-    if (!conversation || conversationError) {
-      return { error: conversationError || new Error("Conversation not found") };
-    }   
-    const newChat: Chat = {
-      _id: nanoid(),
-      conversationId,
-      senderId,
-      content,
-      createdAt: new Date(),
-    };
-    const { response, error } = await mongoApiRequest("insertOne", "chats", {
-      document: newChat,
-    });
-    const result = { response: newChat }
-    if (error) return error;
-    return result;
-  };
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
