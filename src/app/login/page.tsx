@@ -6,14 +6,16 @@ export default function LoginPage() {
       <h2 className="uppercase font-bold text-4xl mb-6">Welcome!!!</h2>
       <div className="flex ... gap-2xl">
         <div>
+          <div  className="pl-[50px]">
           <Button as={"a"} href="/api/auth/login">
-            Sign In
+            Sign Up
           </Button>
-        </div>
-        <div>
-          <Button as={"a"} href="/api/auth/login">
-            Log In
-          </Button>
+          </div>
+          <div className="gap-1">
+            already have account? 
+            <div></div>
+            <a href="/api/auth/login">Log in</a>
+          </div>
         </div>
       </div>
     </section>

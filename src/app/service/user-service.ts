@@ -1,11 +1,8 @@
 import { Prisma, User } from "@prisma/client";
 import { prisma } from "../utils/prisma";
+import { SimpleResponse } from "../types/simple-response";
 
-export const authUser = async (
-  email: string,
-  name: string,
-  imageUrl?: string
-): Promise<{ response?: User; error?: unknown }> => {
+export const authUser = async (email: string, name: string, imageUrl?: string ): Promise<SimpleResponse<User>> => {
   const { response: existingUser, error: findError } = await getUserByEmail(
     email
   );

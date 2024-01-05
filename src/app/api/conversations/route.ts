@@ -23,7 +23,7 @@ export const GET = async (request: NextResponse) => {
 // POST -> /api/conversations
 export const POST = async (request: NextRequest) => {
   const data = await request.json();
-  const { members } = data;
-  const createdData = createConversation(members);
+  const { users } = data;
+  const createdData = createConversation(users);
   return NextResponse.json(createdData);
 };

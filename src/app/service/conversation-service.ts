@@ -18,6 +18,16 @@ export const getAllConversations = async (): Promise<
   }
 };
 
+export const getConversation = async (id: string) => {
+  try {
+    const response = await prisma.conversation.findUnique({ where: { id }, });
+    return { response };
+  } catch (error) {
+    return { error };
+  }
+};
+
+
 export const createConversation = async (
   users: string[]
 ): Promise<SimpleResponse<Conversation>> => {
